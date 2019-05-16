@@ -1,0 +1,3 @@
+﻿  lsass_minidump.cpp
+D:\Security_Tools\mahone\Security_Tools\lsass_minidump\lsass_minidump\lsass_minidump.cpp(90): warning C4477: 'printf' : format string '%ls' requires an argument of type 'wchar_t *', but variadic argument 1 has type 'LPVOID'
+  lsass_minidump.vcxproj -> D:\Security_Tools\mahone\Security_Tools\lsass_minidump\x64\Debug\lsass_minidump.exe
