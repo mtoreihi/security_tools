@@ -8,3 +8,12 @@ Active Directory:
  
 Crypto:
  - cyberchef
+ - https://www.boxentriq.com/code-breaking
+ 
+Web:
+ - dirb
+ - dirbuster
+ - gobuster
+ - wfuzz
+ - sqlmap
+ - burpsuite
