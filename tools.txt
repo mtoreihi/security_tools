@@ -1,0 +1,10 @@
+Active Directory:
+ - bloodhound
+ - rubeus
+ - crackmapexec
+ - smbclient
+ - smbhash
+ - kerberute
+ 
+Crypto:
+ - cyberchef
