@@ -29,3 +29,5 @@ echo 1 > /dev/tcp/172.16.20.20/$1 1>/dev/null 2>&1
 if [[ $? eq 0 ]]; then
 	echo "Port $1 is Open"
 fi
+
+Get-ChildItem -recurse | Select-String -pattern "dummy" | group path
