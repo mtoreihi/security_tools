@@ -30,4 +30,12 @@ if [[ $? eq 0 ]]; then
 	echo "Port $1 is Open"
 fi
 
-Get-ChildItem -recurse | Select-String -pattern "dummy" | group path
+
+ps -name firefox | select id, processName, MainWindowTitle
+procdump -ma 1695
+Get-ChildItem -recurse | Select-String -pattern "cisco" 
+compress-archive -path ./myfile -destinationPath ./myfile.zip
+ 
+
+
+
