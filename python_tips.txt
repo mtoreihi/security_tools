@@ -1,0 +1,6 @@
+# writing/printing/encoding UTF-8 string
+import os
+import locale
+os.environ["PYTHONIOENCODING"] = "utf-8"
+  
+response.text.encode('utf-8')

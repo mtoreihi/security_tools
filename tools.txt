@@ -11,6 +11,7 @@ Windows:
  - smbmap
  - smbclient
  - https://github.com/gentilkiwi/mimikatz/wiki/howto-~-decrypt-EFS-files
+ - https://www.securusglobal.com/community/2013/12/20/dumping-windows-credentials/
  
 Crypto:
  - cyberchef
@@ -25,6 +26,9 @@ Web:
  - sqlmap
  - burpsuite
  - https://github.com/swisskyrepo/PayloadsAllTheThings
+ 
+Web Shell:
+ - https://github.com/antonioCoco/SharPyShell 
  
 Obfuscation:
  - https://github.com/danielbohannon/Invoke-Obfuscation
