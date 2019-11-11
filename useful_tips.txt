@@ -47,7 +47,28 @@ python secretsdump.py -sam sam.save -security security.save -system system.save 
 # mimikatz
 sekurlsa::minidump c:\path\to\file.dmp
 sekurlsa::logonpasswords
+
+# check if a windows machine has been joined to domain
+systeminfo | findstr /B /C:"Domain"
+
+# get all windows drives
+fsutil fsinfo drives
+
+# map drive
+net use z: \\computerName
+net use z: /delete
  
+# Installing telnet on windows (cmd)
+dism /online /Enable-Feature /FeatureName:TelnetClient
+# start a program in windows cmd in background
+start /B command_name.exe
+
+# usql connecion to SQL Server
+usql.exe mssql://user:password@1.2.3.4/dbname
+# fetch all tables from a database in SQL Server
+select dbname.information_schema.tables 
+# fetch all databases from SQL Server
+select name from master.sys.databases
 
 
 

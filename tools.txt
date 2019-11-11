@@ -18,6 +18,14 @@ Crypto:
  - https://www.boxentriq.com/code-breaking
  - https://github.com/gentilkiwi/mimikatz/wiki/howto-~-decrypt-EFS-files
  
+VPN/Tunneling/Relaying/Pivoting:
+ - socat
+ - chisel
+ - ssf (secure-sockets-funneling)
+ 
+Database
+ - usql (single file database management - cli)
+ 
 Web:
  - dirb
  - dirbuster
@@ -25,7 +33,7 @@ Web:
  - wfuzz
  - sqlmap
  - burpsuite
- - https://github.com/swisskyrepo/PayloadsAllTheThings
+ - https://github.com/swisskyrepo/PayloadsAllTheThings (NoSQL payloads!)
  
 Web Shell:
  - https://github.com/antonioCoco/SharPyShell 
@@ -33,7 +41,9 @@ Web Shell:
 Obfuscation:
  - https://github.com/danielbohannon/Invoke-Obfuscation
  - https://www.fireeye.com/content/dam/fireeye-www/blog/pdfs/dosfuscation-report.pdf
- - 
+
+Linux + privesc:
+ - LinEnum.sh (github)
  
 ‌‌Bruteforce:
  - hashcat
