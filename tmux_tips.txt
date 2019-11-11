@@ -1,0 +1,8 @@
+# put windows 1 as a pane in window 0
+join-pane -s 1 -t 0
+break-pane
+
+# resize panges
+Ctrl+b & alt+arrow
+
+

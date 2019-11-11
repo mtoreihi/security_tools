@@ -1,0 +1,8 @@
+EXEC sp_configure 'show advanced options', 1; RECONFIGURE;
+EXEC sp_configure 'xp_cmdshell', 1; RECONFIGURE;
+
+usql.exe mssql://user:password@1.2.3.4/dbname
+# fetch all tables from a database in SQL Server
+select dbname.information_schema.tables 
+# fetch all databases from SQL Server
+select name from master.sys.databases
