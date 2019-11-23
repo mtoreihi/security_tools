@@ -98,3 +98,6 @@ GreatSCT (msbuild)
 certutil -encode infile outfile
 certutil -decode infile outfile
 
+# list vhd files 
+7z l file.vhd
+

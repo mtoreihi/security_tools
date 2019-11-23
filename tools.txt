@@ -1,17 +1,17 @@
 Active Directory:
  - bloodhound
  - rubeus
- - crackmapexec
- - smbclient
- - smbmap
  - kerberute
+ - impacket
  
 Windows:
  - eveil-winrm 
- - smbmap
+ - crackmapexec
  - smbclient
+ - smbmap
  - https://github.com/gentilkiwi/mimikatz/wiki/howto-~-decrypt-EFS-files
  - https://www.securusglobal.com/community/2013/12/20/dumping-windows-credentials/
+ - JAWS (enumeration tool)
  
 Crypto:
  - cyberchef
@@ -43,7 +43,7 @@ Obfuscation:
  - https://www.fireeye.com/content/dam/fireeye-www/blog/pdfs/dosfuscation-report.pdf
 
 Linux + privesc:
- - LinEnum.sh (github)
+ - LinEnum.sh (enumeration tool)
  
 ‌‌Bruteforce:
  - hashcat
