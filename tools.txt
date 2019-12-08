@@ -4,7 +4,7 @@ Active Directory:
  - kerberute
  - impacket
  
-Windows:
+Windows + privesc:
  - eveil-winrm 
  - crackmapexec
  - smbclient
@@ -12,6 +12,7 @@ Windows:
  - https://github.com/gentilkiwi/mimikatz/wiki/howto-~-decrypt-EFS-files
  - https://www.securusglobal.com/community/2013/12/20/dumping-windows-credentials/
  - JAWS (enumeration tool)
+ - GreatSCT (Great Scott)
  
 Crypto:
  - cyberchef
@@ -22,6 +23,7 @@ VPN/Tunneling/Relaying/Pivoting:
  - socat
  - chisel
  - ssf (secure-sockets-funneling)
+ - reGeorg
  
 Database
  - usql (single file database management - cli)

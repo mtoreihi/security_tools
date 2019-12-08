@@ -1,0 +1,14 @@
+# get file architecture
+lipo -info myapp.app/myapp
+
+
+npm install applesign
+
+security find-identity -p codesigning -v
+applesign -i 00000000000000 -m embedded.mobileprovision -o patched_codesign.ipa patchedapp.ipa
+codesign -f -v 00000000000000000 ../FridaGadget.dylib
+./insert_dylib --strip-codesig --inplace '@executable_path/Frameworkds/FridaGadget' Payload/myapp.app/myapp
+zip -qry patchedapp.ipa Payload
+
+objection -g mtoreihi.myapp explore
+frida -U -f mtoreihi.myapp -l frida_script.js

