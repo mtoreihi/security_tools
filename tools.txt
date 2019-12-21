@@ -3,6 +3,7 @@ Active Directory:
  - rubeus
  - kerberute
  - impacket
+ - windapsearch
  
 Windows + privesc:
  - eveil-winrm 
@@ -13,6 +14,8 @@ Windows + privesc:
  - https://www.securusglobal.com/community/2013/12/20/dumping-windows-credentials/
  - JAWS (enumeration tool)
  - GreatSCT (Great Scott)
+ - SharpSploit (C# post exploitation tool)
+ - WinPEAS
  
 Crypto:
  - cyberchef
@@ -33,6 +36,8 @@ Web:
  - dirbuster
  - gobuster
  - wfuzz
+ - dirhunt
+ - dirsearch
  - sqlmap
  - burpsuite
  - https://github.com/swisskyrepo/PayloadsAllTheThings (NoSQL payloads!)
@@ -46,6 +51,7 @@ Obfuscation:
 
 Linux + privesc:
  - LinEnum.sh (enumeration tool)
+ - linPEAS
  
 ‌‌Bruteforce:
  - hashcat
