@@ -1,0 +1,27 @@
+docker load < /root/busybox-docker.tar
+docker images
+docker images -a
+docker rmi docker 3dc3fa17ccf1 -f 
+docker run -it -p 2222:2222 3dc3fa17ccf1
+
+docker image pull debian:buster-slim
+docker image ls
+docker container run -i -t --name mtoreihi debian:buster-slim /bin/bash
+ctrl + P + Q (detach from container shell)
+docker container attach mtoreihi 
+docker container ls
+docker commit container_id new_image_name
+docker container prune
+
+docker import wordpress.tar
+docker run -itd -p 21:21 -p 9999:80 --privileged --name wordpress --memory=4g --restart=always 4550528a91a4 /usr/sbin/init
+docker exec -ti wordpress bash
+
+WARNING: Your kernel does not support swap limit capabilities or the cgroup is not mounted. Memory limited without swap.
+vi /etc/default/grub
+update-grub
+GRUB_CMDLINE_LINUX="cgroup_enable=memory swapaccount=1"
+
+iptables -t nat -A DOCKER -p tcp --dport 2222 -j DNAT --to-destination 172.17.0.2:22
+iptables -t nat -A POSTROUTING -j MASQUERADE -p tcp --source 172.17.0.2 --destination 172.17.0.2 --dport 22
+iptables -A DOCKER -j ACCEPT -p tcp --destination 172.17.0.2 --dport 22

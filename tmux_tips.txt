@@ -3,6 +3,7 @@ join-pane -s 1 -t 0
 break-pane
 
 # resize panges
-Ctrl+b & alt+arrow
+prefix + alt + arrow
 
-
+# toggle panes
+prefix + ctrl + o

