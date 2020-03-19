@@ -1,0 +1,13 @@
+# search all tables in a db for a particular column
+SELECT DISTINCT TABLE_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE COLUMN_NAME IN('mytable') AND TABLE_SCHEMA = 'mydb';
+
+# show each field in a single line
+select * from mytable \G
+
+# output wrapping and pager
+pager less -S
+nopager
+
+# error on date '0000-00-00'
+set sql_mode=''
+select @@GLOBAL.sql_mode global, @@SESSION.sql_mode session;

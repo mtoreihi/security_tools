@@ -7,3 +7,10 @@ prefix + alt + arrow
 
 # toggle panes
 prefix + ctrl + o
+
+# copy and paste
+prefix + [
+ctrl + space
+select text
+ctrl + w
+prefix + ]
