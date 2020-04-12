@@ -1,0 +1,4 @@
+powershell
+
+[System.DirectoryServices.ACtiveDirectory.Domain]::GetCurrentDomain()
+ 
