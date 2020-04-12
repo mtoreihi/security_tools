@@ -61,7 +61,7 @@ fsutil fsinfo drives
 net use z: \\computerName
 net use z: /delete
  
-# Installing telnet on windows (cmd)
+# Installing telnet Client on windows (cmd)
 dism /online /Enable-Feature /FeatureName:TelnetClient
 
 # start a program in windows cmd in background
@@ -133,3 +133,7 @@ netsh wlan show profile “NETWORK NAME” key=clear
 /lib/systemd/system/greenbone-security-assistant.service
 # openvas scanner timeout error solution:
 redis-cli -s /var/run/redis/redis.sock flushall
+
+#encode a command to run as powershell argument
+echo "ping -n 1 10.10.10.10" | iconv -t utf8-16le | base64 -w 0
+powershell -encodedcommand XXXXXXXXXXXXXX

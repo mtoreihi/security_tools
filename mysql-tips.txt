@@ -11,3 +11,7 @@ nopager
 # error on date '0000-00-00'
 set sql_mode=''
 select @@GLOBAL.sql_mode global, @@SESSION.sql_mode session;
+
+# group concat limitation
+select @@group_concat_max_len
+put "group_concat_max_len=18446744073709551615" in mysql.cnf [max value]
