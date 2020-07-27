@@ -1,0 +1,8 @@
+Download and install Go from https://golang.org/dl/
+add bin path to PATH
+Create GOROOT variable
+Create GOPATH variable (bin, pkg and src subdirectories)
+
+go build -ldflags "-w -s"
+
+

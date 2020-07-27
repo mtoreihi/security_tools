@@ -14,3 +14,7 @@ ctrl + space
 select text
 ctrl + w
 prefix + ]
+
+
+# enable mouse
+setw -g mouse on
