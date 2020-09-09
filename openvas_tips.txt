@@ -1,0 +1,1 @@
+redis-cli -s /var/run/redis-openvas/redis-server.sock flushall
