@@ -1,0 +1,3 @@
+sudo runuser -u _gvm -- gvmd --get-scanners
+sudo runuser -u _gvm -- gvmd --get-users --verbose
+sudo runuser -u _gvm -- gvmd --modify-scanner [scanner id] --value [user id]

