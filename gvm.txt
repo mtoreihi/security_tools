@@ -1,3 +1,5 @@
 sudo runuser -u _gvm -- gvmd --get-scanners
 sudo runuser -u _gvm -- gvmd --get-users --verbose
 sudo runuser -u _gvm -- gvmd --modify-scanner [scanner id] --value [user id]
+
+https://www.howtoforge.com/how-to-install-and-use-gvm-vulnerability-scanner-on-ubuntu-20-04/

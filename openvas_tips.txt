@@ -1,1 +1,4 @@
+service openvas-scanner status
+service redis-server start
+
 redis-cli -s /var/run/redis-openvas/redis-server.sock flushall
