@@ -1,0 +1,7 @@
+#find a pattern in string (multi line)
+
+$filename = "sample.cfg"
+
+Get-Content $filename | ForEach-Object {
+    $_.split(":")[1]
+}

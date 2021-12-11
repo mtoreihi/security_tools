@@ -1,0 +1,11 @@
+#Adding CentOS to Active Directory Domain
+#https://computingforgeeks.com/join-centos-rhel-system-to-active-directory-domain/
+#https://www.rootusers.com/how-to-join-centos-linux-to-an-active-directory-domain/
+
+
+install realmd sssd oddjob oddjob-mkhomedir adcli samba-common samba-common-tools krb5-workstation authselect-compat
+vi /etc/resolv.conf
+realm discover badban.local
+realm join badban.local -U administrator
+realm list
+cat /etc/sssd/sssd.conf
