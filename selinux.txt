@@ -1,0 +1,35 @@
+SELinux
+
+#install required packages
+yum install policycoreutils policycoreutils-python selinux-policy selinux-policy-targeted libselinux-utils setroubleshoot-server setools setools-console mcstrans
+
+#get status of selinux (enforcing, permissive, disabled)
+getenforce
+sestatus
+
+#set selinux mode
+setenforce
+
+#selinux user access -> roles, role access -> domains, domain access -> types
+#In the SELinux world, a process (a daemon or a running program) is called a subject
+#A subject is a process and can potentially affect an object
+#An object in SELinux is anything that can be acted upon. This can be a file, a directory, a port, a tcp socket, the cursor, or perhaps an X server. The actions that a subject can perform on an object are the subject’s permissions.
+#A domain is the context within which an SELinux subject (process) can run. That context is like a wrapper around the subject. It tells the process what it can and can’t do. For example, the domain will define what files, directories, links, devices, or ports are accessible to the subject.
+#A type is the context for a file’s context that stipulates the file’s purpose. For example, the context of a file may dictate that it’s a web page, or that the file belongs to the /etc directory, or that the file’s owner is a specific SELinux user. A file’s context is called its type in SELinux lingo
+
+#policy modules currently loaded into memory
+semodule -l
+
+#read policy module files
+semanage boolean -l
+
+#get/set policy
+getsebool ftpd_anon_write
+setsebool ftpd_anon_write on
+#save policy (permanent)
+setsebool -P ftpd_anon_write on
+
+grep httpd /var/log/audit/audit.log
+grep httpd /var/log/audit/audit.log | audit2allow -M mypol
+semodule -i mypol.pp
+setsebool -P httpd_unified on
