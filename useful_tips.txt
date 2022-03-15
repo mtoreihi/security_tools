@@ -173,4 +173,8 @@ PsExec.exe \\ip_address -u username -p password cmd.exe
 
 # DCC2 mscache cached domain credentials cracking
 $DCC2$10240#username#b9999...d38e863
-hashcat --force -a 0 -m 2100 --status -o found.txt hash /usr/share/wordlists/rockyou.txt
+hashcat --force -a 0 -m 2100 --status -o found.txt hash_file.txt /usr/share/wordlists/rockyou.txt
+
+# Active Directory + Bloodhound
+runas /netonly /user:domain_name.xx\user_xxx "powershell.exe -exec bypass"
+sharphound.exe -c all
