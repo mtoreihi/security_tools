@@ -1,0 +1,11 @@
+netapi32.def
+--------------------------
+LIBRARY netapi32.dll
+EXPORTS
+		I_NetServerAuthenticate2 @ 59
+        I_NetServerReqChallenge @ 65
+        I_NetServerTrustPasswordsGet @ 68
+------------------------------------------
+
+lib /DEF:netapi32.def /OUT:mahone.lib
+dumpbin /exports netapi32.min.lib

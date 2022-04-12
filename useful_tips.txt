@@ -178,3 +178,7 @@ hashcat --force -a 0 -m 2100 --status -o found.txt hash_file.txt /usr/share/word
 # Active Directory + Bloodhound
 runas /netonly /user:domain_name.xx\user_xxx "powershell.exe -exec bypass"
 sharphound.exe -c all
+
+
+#Import/Export VPN Connections on Windows 10/11
+%AppData%\Microsoft\Network\Connections

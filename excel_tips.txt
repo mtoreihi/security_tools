@@ -1,0 +1,8 @@
+#formula to copy first line of cell
+LEFT(C3, SEARCH(CHAR(10), C3)-1)
+
+#formula to find "Actual Value:" and copy from there to the end of cell
+=MID(B2,FIND("Actual Value:",B2)+14,LEN(B2)-FIND("Actual Value:", B2))
+
+#formula to copy line 3 of a cell
+LEFT(SUBSTITUTE(MID(E2,SEARCH("#",SUBSTITUTE(E2,CHAR(10),"#",1))+2,999),CHAR(10),"#",1),SEARCH("#",SUBSTITUTE(SUBSTITUTE(MID(E2,SEARCH("#",SUBSTITUTE(E2,CHAR(10),"#",1))+2,999),CHAR(10),"#",1),CHAR(10),"#",1))-1)
