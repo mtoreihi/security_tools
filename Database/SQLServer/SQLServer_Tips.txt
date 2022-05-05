@@ -6,3 +6,14 @@ usql.exe mssql://user:password@1.2.3.4/dbname
 select dbname.information_schema.tables 
 # fetch all databases from SQL Server
 select name from master.sys.databases
+
+
+
+#fetch all tables
+SELECT TABLE_NAME  FROM [XX_DB_NAME_XX].INFORMATION_SCHEMA.TABLES  WHERE TABLE_TYPE = 'BASE TABLE'
+
+#fetch all columns
+SELECT * FROM INFORMATION_SCHEMA.COLUMNS 
+
+#fecht all users
+SELECT * FROM sys.sql_logins

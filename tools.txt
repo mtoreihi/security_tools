@@ -4,6 +4,7 @@ Active Directory:
  - kerberute
  - impacket
  - windapsearch
+ - deathstar (+empire)
  
 Windows + privesc:
  - eveil-winrm 
@@ -16,6 +17,8 @@ Windows + privesc:
  - GreatSCT (Great Scott)
  - SharpSploit (C# post exploitation tool)
  - WinPEAS
+ - sharpdump (.net app to create dump file)
+ - tinymet (tiny meterpreter stager)
  
 Crypto:
  - cyberchef

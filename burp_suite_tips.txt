@@ -1,0 +1,3 @@
+#stepper Regex
+MT_TOKEN ----> TrustToken=(.*?);
+$VAR:MT_TOKEN$
