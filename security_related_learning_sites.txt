@@ -1,0 +1,2 @@
+https://application.security/free/owasp-top-10
+https://github.com/Asabeneh/30-Days-Of-JavaScript
