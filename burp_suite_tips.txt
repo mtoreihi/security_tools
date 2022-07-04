@@ -1,3 +1,8 @@
 #stepper Regex
 MT_TOKEN ----> TrustToken=(.*?);
 $VAR:MT_TOKEN$
+
+
+var_token			csrf-token" content="(.*?)">
+var_requestid		id="requestId" value="(.*?)">
+var_requestname		class="form-control" value="(.*?)">

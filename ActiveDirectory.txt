@@ -2,6 +2,6 @@ powershell
 
 [System.DirectoryServices.ACtiveDirectory.Domain]::GetCurrentDomain()
 
-# get list of users with source computer logged
+# get list of users with source computer logged 	:-|
 get-eventlog "Security" | where {$_.Message -like "*Username*" -AND "Source Network Address"} | export-csv C:\Temp\test.csv
  

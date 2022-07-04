@@ -1,3 +1,5 @@
+<% @ Page Language="VB" %>
+<% Response.Buffer=True %>
 <%
 dim path As String = Request.QueryString("path")
 

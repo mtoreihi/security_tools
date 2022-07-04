@@ -1,3 +1,5 @@
+<% @ Page Language="VB" %>
+<% Response.Buffer=True %>
 <% Response.write("Start"&":")
 
 
