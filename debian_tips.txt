@@ -1,0 +1,12 @@
+ip -c addr
+ip link show
+ip link set ‘iface’ up
+ip -s -s link ls enp0s3
+ip route list
+ip address add 10.10.10.1/24 dev ens192
+ip route add default via 10.10.10.1
+ip route add <network address to connect to> via <ip used to connect to this network> dev <device or interface name>
+ip route add 192.168.43.0/24 via 10.0.2.15 dev enp0s3
+ip route del default via 10.0.2.16
+
+netselect-apt
