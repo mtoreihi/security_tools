@@ -1,0 +1,279 @@
+This WMI query guide was arranged in order for the System Administrators to have the most useful options on one page.
+What is WMI repository
+
+“Windows Management Instrumentation (WMI) is the Microsoft implementation of Web-Based Enterprise Management (WBEM), which is an industry initiative to develop a standard technology for accessing management information in an enterprise environment. WMI uses the Common Information Model (CIM) industry standard to represent systems, applications, networks, devices, and other managed components. CIM is developed and maintained by the Distributed Management Task Force”. The information is from Microsoft’s “About WMI” page. Basically, WMI is like a database table with many different and useful settings and information of the local computer / server hardware and software.
+What is WQL
+
+To query WMI – WMI Query Language (WQL) is used. WQL syntax is almost identical to SQL. In order to query WMI, you need to know the exact namespace. You can enumerate needed namespaces with WMI Explorer.
+Why you need to query WMI repository
+
+For making a good automation you definitely use or used even once WMI repository in order to query for different types of information. Even getting as simple as querying for your hardware model, you use WMI Repository reading queries. But how to know where the information is stored and in which tables? There are different WMI Monitors are available.
+WMI Query with Windows Management Instrumentation Tester
+
+The basic WMI tool is built into Windows: “Windows Management Instrumentation Tester”.
+. To open it press [Win]+[R] to open “Run” window
+. type “wbemtest” (No quotes needed) and [Enter].
+. [Connect] to your local namespace like:
+
+root\cimv2
+
+or [Connect] to a namespace of a remote computer:
+
+\\RemoteComputerName\root\cimv2
+
+and you can run a [Query…] and other processes. Thus, if you know the structure of your table.
+Query with freeware tool WMI Explorer by Alexander Kozlov
+
+Here comes in a tool that can give you a full table structure. One of the tools that we cover in our WMI query guide is “WMI Explorer” by Alexander Kozlov. You can download it here at WMI Explorer Download page.
+*** Many other cool WMI Tools can be found at Rob’s blog WMI Tools page.
+When you open wmiexplorer.exe, you will be automatically connected to your Local WMI Repository to namespace: root\cimv2 (You can see it in the left-bottom corner of the window).
+You can connect to another namespace:
+
+[Action] => [Connect to host/namespace…]
+     Host: localhost
+
+You can write here the name or IP of any computer on your network that you want to connect to its WMI.
+
+     Name space: root
+     Auth. Level: Default
+     *** You can input the credentials if needed
+     [OK]
+
+While connected to the “root” namespace you can check all the classes and repositories that are available in that directory. If you want to know which subdirectories are existing, you can select “__NAMESPACE” and in left-bottom pane [Instances] you will see all the subdirectories. If you see an Instance “SECURITY” inside “__NAMESPACE”, you can connect to it by typing a name space in the Connect window, we used before:
+
+Root\SECURITY
+
+By selecting the tables in the main pane in the [Classes] tab, you will see their contents in the bottom-right pane and you will be presented with a query that you can run and check the results.
+If you want to know which other subdirectories of “Root\SECURITY” there are, click on “__NAMESPACE” again in the main pane in the [Classes] tab and you see the subdirectories of that namespace in the bottom left pane in the [Instances] tab, to which you can also connect through the [Connect] window. Like if we see “sms” in [Instances] of “Root\SECURITY”, we will connect to:
+
+Root\SECURITY\sms
+
+How to query WMI with WQL
+
+We need to understand how to query the WMI for information in our automations. In this WMI query guide we will explain the usage of WQL.
+First of all, you can check if your WMI query is right inside the WMI Explorer.
+*** Example:
+. Open WMI Explorer
+
+ [Actions] => [Connect to host/namespace…]
+     Host: localhost
+     Name space: root\cimv2
+     [OK]
+ Click on (Select) the class "Win32_ComputerSystem"
+
+After you made a selection, you will get the bottom line “Query” updated to:
+
+ SELECT * FROM Win32_ComputerSystem
+
+*** This is WQL.
+There is no need for capital letters in the syntax, but it is easier to recognize where the WQL commands and operators are and where the objects are.
+You can go to [Query] tab on the top and [Execute] this query (remember that this query is executed in the “root\cimv2” namespace). You will receive all the properties and their values of this namespace. If you want to know specific Property (let’s say Model) you can change the “*” character to that property and [Execute]:
+
+SELECT Model FROM Win32_ComputerSystem
+
+Now you have only Model (from class “Win32_ComputerSystem”) of your hardware returned from your query.
+You can query for several Properties of that class at once:
+
+SELECT Model, Manufacturer, WakeUpType, PartOfDomain FROM Win32_ComputerSystem
+
+The Properties in WMI Explorer are returned in Alphabetical order, so you will see: Manufacturer, Model, PartOfDomain, WakeUpType.
+If you want, you can query for more than one instance at a time. Let’s query for processes class:
+
+SELECT * FROM Win32_Process
+
+You will get all the processes that are running in the system right now. What if you want to return only “iexplore.exe” and “wmiprvse.exe”:
+
+SELECT * FROM Win32_Process WHERE Caption = 'wmiprvse.exe' OR Caption = 'iexplore.exe'
+
+Now you will get only instances of that.
+
+More operators available:
+
+ <>
+ Is "NOT EQUAL" operator
+
+ !=
+ Also "NOT EQUAL" operator
+     Or you can write: Not Caption = 'iexplore.exe'
+     Full syntax: SELECT * FROM Win32_Process WHERE Not Caption = 'iexplore.exe'
+     And you will be returned with all the processes that aren't "iexplore.exe"
+
+Another example to return all the processes that contain “explore” in them:
+
+SELECT * FROM Win32_Process WHERE Caption LIKE '%explore%'
+
+You will be returned all the Instances of “explorer.exe”, “wmiexplorer.exe” and “iexplore.exe”.
+Now let’s say we want to return all the instances of “iexplore.exe” with Property SessionId of 2 and 8:
+
+SELECT * FROM Win32_Process WHERE Caption = 'iexplore.exe' AND (SessionId = 2 OR SessionId = 8)
+
+If you want to return all the processes that are with Property “PageFileUsage” between 1000 and 4000:
+
+SELECT * FROM Win32_Process WHERE PageFileUsage >1000 and PageFileUsage < 4000
+
+After we understood the basic syntax of WQL, let’s see how we can query it in our automations.
+How to query WMI with Powershell
+
+The most practical way is using Powershell cmdlet: “Get-WmiObject“. In this WMI query guide we will give some examples of using this Cmdlet.
+To list all the available classes and events of particular namespace you can use “-List”:
+
+Get-WmiObject –List –Namespace root
+
+By default, if “-Namespace” isn’t set in the command, “Get-WmiObject” uses namespace of “root/cimv2”.
+In addition, by default the command is executed for WMI on a local computer, but you can query the WMI for a remote computer as well:
+
+Get-WmiObject –List –Namespace root –ComputerName 10.10.10.240
+
+Also, if needed you can query local computer with “–ComputerName” parameter:
+
+Get-WmiObject –List –Namespace root –ComputerName .
+
+or
+
+Get-WmiObject –List –Namespace root –ComputerName localhost
+
+If it is executed on a remote computer there may be a need for Credentials:
+
+$Credential = Get-Credential
+Get-WmiObject –List –Namespace root –ComputerName 10.10.10.240 -Credential $Credential
+
+If you want to know what are sub directories of the root namespace:
+
+Get-WmiObject -Class __NAMESPACE -Namespace root | Select-Object Name
+
+Command Explanations:
+-Class __NAMESPACE
+Is the class of sub directories of any namespace
+
+-Namespace root
+Is the root namespace of the whole WMI repository
+
+| Select-Object Name
+The output then Pipelined because we don’t need all the properties of all the subspaces. We need only the names, so we can choose the appropriate one.
+The namespace with the regular information about your system is stored in “root/cimv2”, so let’s list all the classes under that namespace:
+
+Get-WmiObject -List -Namespace root/cimv2
+
+If you want to find all the classes that somehow connected to disk, you may execute:
+
+Get-WmiObject -List *disk* -Namespace root/cimv2
+
+Let’s query for some information class:
+
+Get-WmiObject -Class Win32_ComputerSystem -Namespace root/cimv2
+
+Here you will see less details than you would see in wmiexplorer.exe.
+To find all the processes:
+
+Get-WmiObject -Class Win32_Process -Namespace root/cimv2
+
+To find all the processes with Caption of “iexplore.exe”:
+
+Get-WmiObject -Class Win32_Process -Namespace root/cimv2 | where { $_.Caption -eq 'iexplore.exe' }
+
+If you want to find all the processes with Caption of “iexplore.exe” and “wmiprvse.exe”:
+
+Get-WmiObject -Class Win32_Process -Namespace root/cimv2 | where { ( $_.Caption -eq 'iexplore.exe' ) -or ( $_.Caption -eq 'wmiprvse.exe' ) }
+
+To find all the processes with Caption of “iexplore.exe” and “wmiprvse.exe”, but output only Cpation and SessionId properties of the objects:
+
+Get-WmiObject -Class Win32_Process -Namespace root/cimv2 | where { ( $_.Caption -eq 'iexplore.exe' ) -or ( $_.Caption -eq 'wmiprvse.exe' ) } | Select-Object Caption, SessionId
+
+To make it easier, better use the WQL queries for that matter:
+
+Get-WmiObject -Namespace root/cimv2 -Query "SELECT Caption, SessionId FROM Win32_Process WHERE Caption = 'wmiprvse.exe' OR Caption = 'iexplore.exe'"
+
+In the example above, the returned properties are not only Caption and SessionId, there are many properties that are returned by the object. So, in Powershell it is better to return all the Properties and filter them with “Select-Object”:
+
+Get-WmiObject -Namespace root/cimv2 -Query "SELECT * FROM Win32_Process WHERE Caption = 'wmiprvse.exe' OR Caption = 'iexplore.exe'" | Select-Object Caption, SessionId
+
+Now we’ll execute full query from a server with credentials:
+
+$Server = "SomeServerName001"
+$Credential = Get-Credential
+$Namespace = "root/cimv2"
+$Query = "SELECT * FROM Win32_Process WHERE Caption = 'wmiprvse.exe' OR Caption = 'iexplore.exe'"
+Get-WmiObject -Computername $Server -Credential $Credential -Namespace $Namespace -Query $Query
+
+Order in Powershell is very important. It is better to use Variables to execute such cmdlets. Also get used to put single quotes for the properties and not double quotes (example: ‘iexplore.exe’ and not “iexplore.exe”). Both of theצ will work, but if you will use “-Query” Method, you will use it with double quotes, so all the properties inside should be with single quotes.
+How to query WMI with Command Line (CMD) and Batch File
+
+There is an option querying WMI through Batch file or Command Line. In this WMI query guide we will explain how to do it in CMD.
+
+The equivalent is “WMIC” command. In Command Line with Administrative privileges run:
+
+WMIC /?
+
+*** More about WMIC usage can be found in Microsoft Docs.
+You will get all the needed information and available aliases for daily usage. Like:
+
+WMIC ComputerSystem GET Model
+
+Is equivalent to WQL Query of:
+
+SELECT Model FROM Win32_ComputerSystem
+
+“ComputerSystem” in WMIC is an alias for Class “Win32_ComputerSystem” of WQL and “GET” is a “verb” for “SELECT”. Different WMIC verbs are available in Microsoft Docs.
+
+If you don’t know what the alias is (that you need for a particular namespace and class of WMI), you can use the full syntax:
+
+WMIC /namespace:\\root\cimv2 path Win32_ComputerSystem GET Model
+
+If you want all the Properties of the class and not only the “Model” you can:
+
+WMIC /namespace:\\root\cimv2 path Win32_ComputerSystem GET *
+
+This is equivalent to WQL of:
+
+SELECT Model FROM Win32_ComputerSystem
+
+In namespace “root\cimv2”.
+You can also make it easier to view by formatting the output of WMIC:
+
+WMIC /namespace:\\root\cimv2 path Win32_ComputerSystem GET * /format:list
+
+If you get “Access Denied” error and you’re in the domain, you will need to provide Administrator credentials:
+
+WMIC /user:adminjohn /password:P@ssword /namespace:\\root\cimv2 path Win32_ComputerSystem GET * /format:list
+
+We wouldn’t recommend this method as the credentials are passed in plaintext, so better run “CMD.exe” as that user and then execute the command without the “/user” and “/password” switches.
+If you need to run the command on remote computer:
+
+WMIC /node:YourRemoteComputerName001 /namespace:\\root\cimv2 path Win32_ComputerSystem GET * /format:list
+
+Another example is mixing WQL query and WMIC:
+
+WMIC /namespace:\\root\cimv2 path win32_Process WHERE "Caption like '%explore%'"
+
+Will return you all the instances of the processes that contain “explore” in the Caption Property.
+Drilling down the aliases of WMIC in Command Line:
+
+In our WMI query guide we will explain how to get help from WMIC command, by drilling down each step of the command till we reach the desired result.
+
+Run in CMD:
+
+WMIC /?
+
+This will give you all the switches and the aliases available.
+For example, you found that the alias for the Class “Win32_ComputerSystem” is “computersystem”. Now you want to know what the available verbs for that alias are:
+
+WMIC ComputerSystem /?
+
+This will give you different examples of the verbs, but basics are “GET” to fetch the information and “SET” to set a value in the property. So now we want to know what properties of that alias are available:
+
+WMIC ComputerSystem GET /?
+
+Off course most of them aren’t self-explanatory so you can run them in order to see their value:
+
+WMIC ComputerSystem GET ResetCapability
+
+After you run the query, you will see that the first line is the name of the Property and if you want to use it in a variable in a Batch file, then you will need to skip this line. We use this in a batch in order to filter it out:
+
+SET WMICCommand="WMIC /node:%ComputerName% os get version" 
+FOR /F "skip=1 tokens=*" %%X IN ('%WMICCommand%') DO (
+    echo %%X
+    goto endMe
+)
+: endMe
+
+Sometimes the returned value contains a space character or two before the value and after the value, so you will need to filter those too.

@@ -5,4 +5,12 @@ Create GOPATH variable (bin, pkg and src subdirectories)
 
 go build -ldflags "-w -s"
 
+# Golang Notes
+Anything (variable, type, or function) that starts with a capital letter is exported, and visible outside the package.
+Anything that does not start with a capital letter is not exported, and is visible only inside the same package.
+In order to have a nested struct as json (by using json.MarshalIndent) the name of the variables must be capital.
 
+#cross compile
+apt-get install gcc-multilib
+apt-get install gcc-mingw-w64
+GOOS=windows GOARCH=amd64 CGO_ENABLED=1 CC=x86_64-w64-mingw32-gcc go build

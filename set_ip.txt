@@ -1,0 +1,12 @@
+@echo off
+netsh interface ip show addresses "VPN NAME" | find "IP Address:" > ip.tmp
+::timeout /t 2
+type ip.tmp
+::pause
+for /F "tokens=4 delims=." %%a in (ip.tmp) do (
+	echo %%a
+	echo "Adding default route ..."
+	route add 172.16.0.0 mask 255.240.0.0 172.16.1.%%a
+	pause
+	del ip.tmp
+)
