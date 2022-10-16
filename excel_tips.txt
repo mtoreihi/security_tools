@@ -6,3 +6,40 @@ LEFT(C3, SEARCH(CHAR(10), C3)-1)
 
 #formula to copy line 3 of a cell
 LEFT(SUBSTITUTE(MID(E2,SEARCH("#",SUBSTITUTE(E2,CHAR(10),"#",1))+2,999),CHAR(10),"#",1),SEARCH("#",SUBSTITUTE(SUBSTITUTE(MID(E2,SEARCH("#",SUBSTITUTE(E2,CHAR(10),"#",1))+2,999),CHAR(10),"#",1),CHAR(10),"#",1))-1)
+
+
+#vba code to copy data based on filter
+Sub AutoFilters()
+  Dim sheetsToFilter As Variant, sheetsColumnToFilterOn As Variant
+  Dim criteria As Variant, criterium As Variant
+  Dim iSht As Long
+  Dim pre As String
+  Dim wb1 As Workbook, wb2 As Workbook
+  
+  Application.ScreenUpdating = False
+  Application.DisplayAlerts = False
+  
+  Set wb1 = ThisWorkbook
+  sheetsToFilter = Array("Shiraz_Network_Excel")
+  sheetsColumnToFilterOn = Array(5)
+  criteria = Array("172.17.201.100", "172.17.201.101")
+  pre = Format(Now, "dd-mm-yyyy")
+  
+  For Each criterium In criteria
+    Worksheets("Shiraz_Network_Excel").Range("A1").AutoFilter _
+    Field:=5, _
+    Criteria1:=criterium, _
+    VisibleDropDown:=True
+  
+    Set wb2 = Workbooks.Add
+    wb2.Sheets(wb2.Sheets.Count).Name = criterium
+    wb1.Sheets("Shiraz_Network_Excel").Range("A1").SpecialCells(xlCellTypeVisible).Copy
+    wb2.ActiveSheet.Range("A1").PasteSpecial Paste:=xlPasteAll
+    Application.CutCopyMode = False
+
+   
+    wb2.SaveAs wb1.Path & "\" & " " & criterium & ".xlsx", xlWorkbookDefault
+    wb2.Close False
+  Next criterium
+  Application.ScreenUpdating = True
+End Sub
