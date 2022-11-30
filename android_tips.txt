@@ -1,0 +1,8 @@
+#Opening and extracting apk files
+apktool-2.6.1.jar d myfile.apk
+
+#Simple proxy without authentication
+adb shell settings put global http_proxy [proxy ip]:[proxy port]
+
+#To disable the proxy
+adb shell settings put global http_proxy :0

