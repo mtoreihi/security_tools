@@ -12,3 +12,33 @@ zip -qry patchedapp.ipa Payload
 
 objection -g mtoreihi.myapp explore
 frida -U -f mtoreihi.myapp -l frida_script.js
+-------------------------------------------------------------------------------------------------------------
+
+$ gunzip frida-gadget-14.2.2-ios-universal.dylib.gz $ mkdir -p ~/.cache/frida $ cp frida-gadget-14.2.2-ios-universal.dylib ~/.cache/frida/gadget-ios.dylib
+
+
+git clone https://github.com/Tyilo/insert_dylib
+cd insert_dylib
+xcodebuild
+unzip myapp.ipa
+
+cp FridaGadget.dylib Payload/myapp.ipa/Frameworks
+
+insert_dylib --strip-codesig --inplace '@executable_path/Frameworks/FridaGadget.dylib' Payload/myapp.ipa/myapp
+
+codesign -f -v -s C97539392F390xxxxxxxxxx60EE11D221F56E Payload/myapp.ipa/Frameworks/FridaGadget.dylib
+
+zip -qry mtoreihi-patched.ipa Payload
+
+iOS App Signer
+
+rm -rf Payload
+
+unzip mtoreihi-patched-signed.ipa
+
+ios-deploy —bundle Payload/myapp.app -vWd
+
+frida -U Gadget
+objection -g myapp explore
+
+
