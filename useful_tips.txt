@@ -215,3 +215,7 @@ certutil -urlcache -split -f “http://192.168.0.13:9999/executable.exe” execu
 
 # Invalid handle error on windows login
 reg add HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\system /v LocalAccountTokenFilterPolicy /t REG_DWORD /d 1 /f
+
+#Check and debug smtp server certificate (and dates)
+openssl s_client -crlf -starttls smtp -CAfile /etc/ssl/certs/certSIGN_ROOT_CA.pem -connect smtps.myorg.com:587
+echo QUIT | openssl s_client -crlf -starttls smtp -CAfile /etc/ssl/certs/certSIGN_ROOT_CA.pem -connect smtps.myorg.com:587 | openssl x509 -noout -dates

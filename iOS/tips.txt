@@ -1,3 +1,21 @@
+# get UUID of a connected device By using the I/O Registry Explorer tool ioreg
+$ ioreg -p IOUSB -l | grep "USB Serial"
+| "USB Serial Number" = "9e8ada44246cee813e2f8c1407520bf2f84849ec"
+
+# get UUID of a connected device By using ideviceinstaller
+$ brew install ideviceinstaller
+$ idevice_id -l
+316f01bd160932d2bf2f95f1f142bc29b1c62dbc
+
+# get UUID of a connected device By using the system_profiler:
+$ system_profiler SPUSBDataType | sed -n -e '/iPad/,/Serial/p;/iPhone/,/Serial/p;/iPod/,/Serial/p' | grep "Serial Number:"
+2019-09-08 10:18:03.920 system_profiler[13251:1050356] SPUSBDevice: IOCreatePlugInInterfaceForService failed 0xe00002be
+Serial Number: 64655621de6ef5e56a874d63f1e1bdd14f7103b1
+
+# get UUID of a connected device By using instruments:
+instruments -s devices
+
+
 # get file architecture
 lipo -info myapp.app/myapp
 

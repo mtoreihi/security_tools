@@ -61,3 +61,7 @@ Get-WuaHistory | Format-Table
 $Session = New-Object -ComObject Microsoft.Update.Session
 $Searcher = $Session.CreateUpdateSearcher()
 $Searcher.Search("Supported=1").Updates
+
+# LSASS Hardening
+https://learn.microsoft.com/en-us/windows-server/security/credentials-protection-and-management/configuring-additional-lsa-protection
+https://learn.microsoft.com/en-us/windows/security/identity-protection/credential-guard/credential-guard-manage
