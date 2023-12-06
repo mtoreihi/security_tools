@@ -3,3 +3,6 @@ ovftool.exe vi://x.y.z.w/Toreihi-Ubuntu11 "C:\Users\Mehran Toreihi\Downloads\Tor
 
 #import OVF
 ovftool.exe -ds=[DATASTORE] -dm=thin -n=[NAME} "C:\Users\Mehran Toreihi\Downloads\Toreihi-Ubuntu11.ova" vi://x.y.z.w/
+
+#esxi Cannot change the host configuration datastore
+partedUtil mklabel /dev/disks/DEVICE-ID msdos

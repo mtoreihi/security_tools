@@ -1,6 +1,9 @@
 #formula to copy first line of cell
 LEFT(C3, SEARCH(CHAR(10), C3)-1)
 
+#formula to copy second line of cell
+=MID(B1, FIND(CHAR(10), B1)+1, FIND(CHAR(10), B1, FIND(CHAR(10), B1)+1)-FIND(CHAR(10),B1)-1)
+
 #formula to find "Actual Value:" and copy from there to the end of cell
 =MID(B2,FIND("Actual Value:",B2)+14,LEN(B2)-FIND("Actual Value:", B2))
 
@@ -20,20 +23,20 @@ Sub AutoFilters()
   Application.DisplayAlerts = False
   
   Set wb1 = ThisWorkbook
-  sheetsToFilter = Array("Shiraz_Network_Excel")
+  sheetsToFilter = Array("Network_Excel")
   sheetsColumnToFilterOn = Array(5)
   criteria = Array("172.17.201.100", "172.17.201.101")
   pre = Format(Now, "dd-mm-yyyy")
   
   For Each criterium In criteria
-    Worksheets("Shiraz_Network_Excel").Range("A1").AutoFilter _
+    Worksheets("Network_Excel").Range("A1").AutoFilter _
     Field:=5, _
     Criteria1:=criterium, _
     VisibleDropDown:=True
   
     Set wb2 = Workbooks.Add
     wb2.Sheets(wb2.Sheets.Count).Name = criterium
-    wb1.Sheets("Shiraz_Network_Excel").Range("A1").SpecialCells(xlCellTypeVisible).Copy
+    wb1.Sheets("Network_Excel").Range("A1").SpecialCells(xlCellTypeVisible).Copy
     wb2.ActiveSheet.Range("A1").PasteSpecial Paste:=xlPasteAll
     Application.CutCopyMode = False
 
