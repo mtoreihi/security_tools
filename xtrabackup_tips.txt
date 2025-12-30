@@ -1,0 +1,5 @@
+ulimit -a
+ulimit -n 4096
+
+#mysql backup with xtrabackup
+xtrabackup --backup --target-dir=/mnt/sdb1/2024-05-07-db-fullbackup --open-files-limit=4096 --parallel=10

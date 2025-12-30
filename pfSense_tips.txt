@@ -1,0 +1,2 @@
+# set update to previous version in browser
+pkg-static install -f pkg

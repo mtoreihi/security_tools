@@ -1,0 +1,6 @@
+#Kali apt update GPG Error
+wget -q -O - https://archive.kali.org/archive-key.asc  | apt-key add
+
+#apt cache error 
+dpkg -i --force-overwrite /var/cache/apt/archives/python3-numpy_1%3a1.24.2-1_amd64.deb
+

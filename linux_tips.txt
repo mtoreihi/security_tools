@@ -1,0 +1,2 @@
+lshw -class network -short
+ip -br -c link show
